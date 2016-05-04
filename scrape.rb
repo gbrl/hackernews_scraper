@@ -51,17 +51,19 @@ def parse(doc)
   all_ages           = comments_section.search('span.age').map { |age| age.inner_text}
   all_users          = comments_section.search('span.comhead > a').map { |user| user.inner_text.gsub("  ","")}
 
-  puts "Found #{all_comments_boxes.count} comment."
-  puts "Found #{all_reply_links.count} reply links."
-  puts "Found #{all_comments.length} comments."
-  puts "Found #{all_users.length} usernames."
-  puts "Found #{all_ages.length} timestamps."
+  puts "Found #{all_comments_boxes.count} comments."
+  # Debugging input
+  
+  # puts "Found #{all_reply_links.count} reply links."
+  # puts "Found #{all_comments.length} comments."
+  # puts "Found #{all_users.length} usernames."
+  # puts "Found #{all_ages.length} timestamps."
 
   all_comments_boxes.count.times do |i|
     @post.add_comment(Comment.new(all_comments[i-1],all_users[i-1],all_ages[i-1]))
   end
   output_comments(@post)
-
+  puts "Found #{all_comments_boxes.count} comments." unless all_comments_boxes.count == 0
 end
 
 def output_comments(post)
