@@ -47,7 +47,7 @@ def parse(doc)
   all_comments_boxes = comments_section.search('td.default').map
   all_reply_links    = comments_section.search('div.reply').map 
   all_comments_spans = comments_section.search('span.comment').map 
-  all_comments       = comments_section.search('td.default > span.comment').map { |comment| comment.inner_text.gsub("  ","").gsub("-----","").gsub("\n\nreply\n\n","") unless comment.nil?}
+  all_comments       = comments_section.search('td.default > span.comment').map { |comment| comment.inner_text.gsub("  ","").gsub("-----","").gsub("\n\n","").gsub("\n\nreply\n\n","") unless comment.nil?}
   all_ages           = comments_section.search('span.age').map { |age| age.inner_text}
   all_users          = comments_section.search('span.comhead > a').map { |user| user.inner_text.gsub("  ","")}
 
