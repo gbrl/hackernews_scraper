@@ -42,15 +42,26 @@ def parse(doc)
   @post = Post.new(title,url,points,item_id)
 
   # COMMENT USER
-  all_comments = doc.search('td.default > span.comment').map { |comment| comment.inner_text.gsub("  ","").gsub("-----","").gsub("\n\nreply\n\n","")}
-  all_ages = doc.search('span.age').map { |age| age.inner_text}
-  all_user = doc.search('span.comhead > a').map { |user| user.inner_text.gsub("  ","")}
+  comments_section   = doc.search('table.comment-tree')
 
-  all_comments.length.times do |i|
-    @post.add_comment(Comment.new(all_comments[i-1],all_user[i-1],all_ages[i-1]))
+  all_comments_boxes = comments_section.search('td.default').map
+  all_reply_links    = comments_section.search('div.reply').map 
+  all_comments_spans = comments_section.search('span.comment').map 
+  all_comments       = comments_section.search('td.default > span.comment').map { |comment| comment.inner_text.gsub("  ","").gsub("-----","").gsub("\n\nreply\n\n","") unless comment.nil?}
+  all_ages           = comments_section.search('span.age').map { |age| age.inner_text}
+  all_users          = comments_section.search('span.comhead > a').map { |user| user.inner_text.gsub("  ","")}
+
+  puts "Found #{all_comments_boxes.count} comment."
+  puts "Found #{all_reply_links.count} reply links."
+  puts "Found #{all_comments.length} comments."
+  puts "Found #{all_users.length} usernames."
+  puts "Found #{all_ages.length} timestamps."
+
+  all_comments_boxes.count.times do |i|
+    @post.add_comment(Comment.new(all_comments[i-1],all_users[i-1],all_ages[i-1]))
   end
-
   output_comments(@post)
+
 end
 
 def output_comments(post)
@@ -58,7 +69,7 @@ def output_comments(post)
     puts blue(comment.username)
     puts red(comment.age)
     puts green(comment.content)
-    puts yellow("--------------------------------------------------")
+    puts yellow("\n. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .\n")
   end
 end
 
