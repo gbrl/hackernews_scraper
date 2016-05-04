@@ -55,10 +55,10 @@ end
 
 def output_comments(post)
   post.comments.each do |comment|
-    puts comment.username
-    puts comment.age
-    puts comment.content
-    puts "--------------------------------------------------"
+    puts blue(comment.username)
+    puts red(comment.age)
+    puts green(comment.content)
+    puts yellow("--------------------------------------------------")
   end
 end
 

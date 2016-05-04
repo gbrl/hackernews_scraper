@@ -9,3 +9,12 @@ end
 def green(text)
   colorize(text, 32)
 end
+
+def yellow(text)
+  colorize(text, 33)
+end
+
+def blue(text)
+  colorize(text, 96)
+end
+
