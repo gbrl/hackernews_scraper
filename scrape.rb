@@ -47,7 +47,6 @@ def parse(doc)
   all_user = doc.search('span.comhead > a').map { |user| user.inner_text.gsub("  ","")}
 
   all_comments.length.times do |i|
-    puts "Found a comment"
     @post.add_comment(Comment.new(all_comments[i-1],all_user[i-1],all_ages[i-1]))
   end
 
